@@ -12,13 +12,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
+    primary = Purple80, // Keeping Purple80 for dark theme, or specify a dark blue variant
     secondary = PurpleGrey80,
     tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
+    primary = BluePrimary, // Changed to BluePrimary
     secondary = PurpleGrey40,
     tertiary = Pink40
 
@@ -52,7 +52,7 @@ fun GoPaddiTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = Typography, // Ensure Typography is defined or imported
         content = content
     )
 }

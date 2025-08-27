@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deaelum.android.gopaddi.ui.theme.components.PlanTripSection
+import com.deaelum.android.gopaddi.ui.theme.components.YourTripsSection
 
 @Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,11 +52,13 @@ fun PlanTripScreen(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
-                .background(Color.White)
-                .padding(16.dp),
+                .verticalScroll(rememberScrollState())
+                .background(Color.White),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            PlanTripSection()
+            PlanTripSection(Modifier.weight(1f))
+
+            YourTripsSection()
         }
     }
 }
