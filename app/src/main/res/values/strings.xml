@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Go Paddi</string>
+    <string name="plan_trip_title">Plan Your Dream Trip in Minutes</string>
+    <string name="plan_trip_description">Build, personalize, and optimize your itineraries with our trip planner. Perfect for getaways, remote workcations, and any spontaneous escapade.</string>
+    <string name="where_to">Where to?</string>
+    <string name="select_city">Select City</string>
+    <string name="end_date">End Date</string>
+    <string name="start_date">Start Date</string>
+    <string name="enter_date">Enter Date</string>
+</resources>
