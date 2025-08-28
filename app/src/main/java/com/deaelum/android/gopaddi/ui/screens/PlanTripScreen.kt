@@ -24,12 +24,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.deaelum.android.gopaddi.ui.components.PlanTripSection
 import com.deaelum.android.gopaddi.ui.components.YourTripsSection
+import com.deaelum.android.gopaddi.viewModel.TripViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlanTripScreen(modifier: Modifier = Modifier) {
+fun PlanTripScreen(modifier: Modifier = Modifier, viewModel: TripViewModel) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -58,7 +58,7 @@ fun PlanTripScreen(modifier: Modifier = Modifier) {
                 .background(Color.White),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            PlanTripSection(Modifier.weight(1f))
+            PlanTripSection(Modifier.weight(1f), viewModel)
 
             //YourTripsSection()
         }
