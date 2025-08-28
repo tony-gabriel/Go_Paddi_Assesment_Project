@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import com.deaelum.android.gopaddi.R
 import com.deaelum.android.gopaddi.ui.data.TripCategory
 import com.deaelum.android.gopaddi.ui.data.TripStyle
+import com.deaelum.android.gopaddi.viewModel.TripViewModel
 import kotlin.text.ifEmpty
 
 @Preview(showBackground = true)
@@ -54,13 +55,14 @@ import kotlin.text.ifEmpty
 @Composable
 fun CreateTripModalSheet(
     onDismiss: () -> Unit = {},
-    onCreateTrip: (String, String, String) -> Unit = { _, _, _ -> }
+    onCreateTrip: (String, String, String) -> Unit = { _, _, _ -> },
 ) {
     val sheetState = rememberModalBottomSheetState()
     var tripCategory by remember { mutableStateOf(TripStyle.SOLO) }
     var expanded by remember { mutableStateOf(false) }
     var tripName by remember { mutableStateOf("") }
     var tripDescription by remember { mutableStateOf("") }
+
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
