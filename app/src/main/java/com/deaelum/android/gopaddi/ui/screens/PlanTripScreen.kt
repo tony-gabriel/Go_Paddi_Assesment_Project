@@ -1,4 +1,4 @@
-package com.deaelum.android.gopaddi.ui.theme.screens
+package com.deaelum.android.gopaddi.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,9 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.deaelum.android.gopaddi.ui.theme.components.PlanTripSection
-import com.deaelum.android.gopaddi.ui.theme.components.YourTripsSection
+import com.deaelum.android.gopaddi.ui.components.PlanTripSection
+import com.deaelum.android.gopaddi.ui.components.YourTripsSection
 
 @Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +57,7 @@ fun PlanTripScreen(modifier: Modifier = Modifier) {
         ) {
             PlanTripSection(Modifier.weight(1f))
 
-            YourTripsSection()
+            //YourTripsSection()
         }
     }
 }

@@ -1,7 +1,8 @@
-package com.deaelum.android.gopaddi.ui.theme.components
+package com.deaelum.android.gopaddi.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +43,8 @@ import com.deaelum.android.gopaddi.R
 @Preview(showBackground = true)
 @Composable
 fun PlanTripSection(modifier: Modifier = Modifier) {
+    var city by remember { mutableStateOf("") }
+    var showSelectCityBottomSheet by remember { mutableStateOf(false) }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -71,6 +78,7 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .clickable{showSelectCityBottomSheet = true}
                     .padding(horizontal = 12.dp, vertical = 12.dp),
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F0F0)),
                 border = BorderStroke(1.dp, Color.Gray.copy(alpha = 0.5f))
@@ -93,11 +101,13 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                         Text(
                             text = stringResource(id = R.string.where_to),
                             style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = stringResource(id = R.string.select_city),
+                            text = city.ifEmpty { stringResource(id = R.string.select_city) },
                             style = MaterialTheme.typography.bodyMedium,
                             fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
@@ -133,11 +143,13 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                             Text(
                                 text = stringResource(id = R.string.start_date),
                                 style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
                                 text = stringResource(id = R.string.enter_date),
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }
@@ -168,11 +180,13 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                             Text(
                                 text = stringResource(id = R.string.end_date),
                                 style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
                                 text = stringResource(id = R.string.enter_date),
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }
@@ -186,12 +200,22 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                     .padding(horizontal = 12.dp, vertical = 12.dp)
                     .height(56.dp),
                 shape = RoundedCornerShape(6.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1E88E5))
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0D6EFD))
             ) {
                 Text(
                     text = stringResource(id = R.string.create_trip_button),
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold,
+                )
+            }
+
+            if (showSelectCityBottomSheet){
+                SelectCityBottomSheet(
+                    onDismiss = { showSelectCityBottomSheet = false },
+                    onSelectCountry = {
+                        city = it
+                        showSelectCityBottomSheet = false
+                    }
                 )
             }
 
