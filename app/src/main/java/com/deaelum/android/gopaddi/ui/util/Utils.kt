@@ -16,7 +16,7 @@ class Utils {
         @JvmStatic
         fun getFormatedDate( date: LocalDate?): String {
             if (date == null) {
-                return ""
+                return "Select Date"
             }
 
             val dateFromLocalDate: Date = Date.from(

@@ -1,6 +1,7 @@
 package com.deaelum.android.gopaddi.ui.components
 
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -141,6 +142,7 @@ fun SelectDatesBottomSheet(
                                         endDate = day
                                     }
                                 }
+                                Log.i("Date:", "$startDate - $endDate")
                             }
                         }
                     )

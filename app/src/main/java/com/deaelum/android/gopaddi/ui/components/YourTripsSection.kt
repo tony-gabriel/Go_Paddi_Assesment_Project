@@ -1,5 +1,7 @@
 package com.deaelum.android.gopaddi.ui.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,6 +43,7 @@ import com.deaelum.android.gopaddi.R
 import com.deaelum.android.gopaddi.ui.data.Trip
 import com.deaelum.android.gopaddi.ui.data.TripCategory
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun YourTripsSection(modifier: Modifier = Modifier, trips:List<Trip>) {
@@ -49,7 +52,7 @@ fun YourTripsSection(modifier: Modifier = Modifier, trips:List<Trip>) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxWidth()
     ) {
 
         Text(
@@ -135,7 +138,7 @@ fun YourTripsSection(modifier: Modifier = Modifier, trips:List<Trip>) {
                         contentAlignment = Alignment.Center,
                     ) {
                         Text(
-                            "No Expenses Yet",
+                            "No Trips Yet",
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

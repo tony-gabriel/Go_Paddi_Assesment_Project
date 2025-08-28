@@ -59,7 +59,6 @@ fun PlanTripSection(modifier: Modifier = Modifier, viewModel: TripViewModel) {
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .wrapContentHeight()
             .background(Color.Gray.copy(alpha = 0.2f)),
         // verticalArrangement = Arrangement.SpaceBetween,
     ) {
