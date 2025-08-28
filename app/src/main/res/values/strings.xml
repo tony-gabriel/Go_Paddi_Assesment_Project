@@ -11,4 +11,5 @@
     <string name="your_trip_title">Your Trips</string>
     <string name="your_trip_description">Your trip itineraries and planned trips are placed here</string>
     <string name="select_a_city">Please select a city</string>
+    <string name="choose_date_button">Choose Date</string>
 </resources>

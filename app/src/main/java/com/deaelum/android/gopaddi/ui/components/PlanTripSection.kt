@@ -1,14 +1,14 @@
 package com.deaelum.android.gopaddi.ui.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -37,14 +37,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.deaelum.android.gopaddi.R
+import com.deaelum.android.gopaddi.ui.util.Utils.Constants.getFormatedDate
+import java.time.LocalDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
 fun PlanTripSection(modifier: Modifier = Modifier) {
     var city by remember { mutableStateOf("") }
+    var startDate by remember { mutableStateOf<LocalDate?>(null) }
+    var endDate by remember { mutableStateOf<LocalDate?>(null) }
     var showSelectCityBottomSheet by remember { mutableStateOf(false) }
+    var showDateSelectorBottomSheet by remember { mutableStateOf(false) }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -121,7 +126,8 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                 Card(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = 12.dp),
+                        .padding(start = 12.dp)
+                        .clickable{showDateSelectorBottomSheet = true},
                     colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F0F0)),
                     border = BorderStroke(1.dp, Color.Gray.copy(alpha = 0.5f))
                 ) {
@@ -131,7 +137,7 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.CalendarToday,
-                            contentDescription = "Location icon",
+                            contentDescription = "Calendar icon",
                             modifier = Modifier.height(86.dp),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -146,7 +152,8 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = stringResource(id = R.string.enter_date),
+                                text = if (startDate == null) stringResource(id = R.string.enter_date)
+                                else getFormatedDate(startDate),
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -158,7 +165,8 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                 Card(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(end = 12.dp),
+                        .padding(end = 12.dp)
+                        .clickable{showDateSelectorBottomSheet = true},
                     colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F0F0)),
                     border = BorderStroke(1.dp, Color.Gray.copy(alpha = 0.5f))
                 ) {
@@ -183,7 +191,8 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                             Text(
-                                text = stringResource(id = R.string.enter_date),
+                                text = if (endDate == null) stringResource(id = R.string.enter_date)
+                                else getFormatedDate(endDate),
                                 style = MaterialTheme.typography.bodyMedium,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -210,11 +219,22 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
             }
 
             if (showSelectCityBottomSheet){
-                SelectCityBottomSheet(
+                SelectDatesBottomSheet(
                     onDismiss = { showSelectCityBottomSheet = false },
                     onSelectCountry = {
                         city = it
                         showSelectCityBottomSheet = false
+                    }
+                )
+            }
+
+            if (showDateSelectorBottomSheet){
+                SelectDatesBottomSheet(
+                    onDismiss = {showDateSelectorBottomSheet = false},
+                    onDateRangeSelected = { start, end ->
+                        startDate = start
+                        endDate = end
+                        showDateSelectorBottomSheet = false
                     }
                 )
             }
