@@ -1,5 +1,7 @@
 package com.deaelum.android.gopaddi.ui.screens
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.deaelum.android.gopaddi.ui.components.PlanTripSection
 import com.deaelum.android.gopaddi.ui.components.YourTripsSection
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

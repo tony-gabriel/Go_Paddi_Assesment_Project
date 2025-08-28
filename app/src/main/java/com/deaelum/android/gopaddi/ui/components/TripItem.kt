@@ -1,5 +1,7 @@
 package com.deaelum.android.gopaddi.ui.components
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,9 +29,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.deaelum.android.gopaddi.R
 import com.deaelum.android.gopaddi.ui.data.Trip
+import com.deaelum.android.gopaddi.ui.util.Utils
+import com.deaelum.android.gopaddi.ui.util.Utils.Constants.getFullFormatedDate
+import java.text.SimpleDateFormat
+import java.time.temporal.ChronoUnit
+import java.util.Locale
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun TripItem(modifier: Modifier = Modifier, trips: Trip) {
+fun TripItem(modifier: Modifier = Modifier, trip: Trip) {
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 4.dp)
@@ -64,7 +72,7 @@ fun TripItem(modifier: Modifier = Modifier, trips: Trip) {
 
             ) {
                 Text(
-                    text = "Paris",
+                    text = trip.city,
                     color = Color.White,
                 )
             }
@@ -72,7 +80,7 @@ fun TripItem(modifier: Modifier = Modifier, trips: Trip) {
 
         Column(Modifier.fillMaxWidth()) {
             Text(
-                text = "Bahamas Family Trip",
+                text = trip.name,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = 16.dp)
@@ -80,13 +88,13 @@ fun TripItem(modifier: Modifier = Modifier, trips: Trip) {
 
             Row{
                 Text(
-                    text = "19th April 2024",
+                    text = getFullFormatedDate(trip.startDate),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
                 Spacer(modifier.weight(1f))
                 Text(
-                    text = "5 Days",
+                    text = "${ChronoUnit.DAYS.between(trip.startDate, trip.endDate)} days",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)

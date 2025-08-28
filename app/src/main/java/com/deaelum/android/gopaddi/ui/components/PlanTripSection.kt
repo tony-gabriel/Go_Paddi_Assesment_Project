@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deaelum.android.gopaddi.R
+import com.deaelum.android.gopaddi.ui.data.Trip
 import com.deaelum.android.gopaddi.ui.util.Utils.Constants.getFormatedDate
 import java.time.LocalDate
 
@@ -50,6 +51,8 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
     var endDate by remember { mutableStateOf<LocalDate?>(null) }
     var showSelectCityBottomSheet by remember { mutableStateOf(false) }
     var showDateSelectorBottomSheet by remember { mutableStateOf(false) }
+    var showCreateTripBottomSheet by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -83,7 +86,7 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable{showSelectCityBottomSheet = true}
+                    .clickable { showSelectCityBottomSheet = true }
                     .padding(horizontal = 12.dp, vertical = 12.dp),
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F0F0)),
                 border = BorderStroke(1.dp, Color.Gray.copy(alpha = 0.5f))
@@ -127,7 +130,7 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 12.dp)
-                        .clickable{showDateSelectorBottomSheet = true},
+                        .clickable { showDateSelectorBottomSheet = true },
                     colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F0F0)),
                     border = BorderStroke(1.dp, Color.Gray.copy(alpha = 0.5f))
                 ) {
@@ -166,7 +169,7 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 12.dp)
-                        .clickable{showDateSelectorBottomSheet = true},
+                        .clickable { showDateSelectorBottomSheet = true },
                     colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F0F0)),
                     border = BorderStroke(1.dp, Color.Gray.copy(alpha = 0.5f))
                 ) {
@@ -203,13 +206,14 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
             }
 
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { showCreateTripBottomSheet = true },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 12.dp, vertical = 12.dp)
                     .height(56.dp),
                 shape = RoundedCornerShape(6.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0D6EFD))
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0D6EFD)),
+                enabled = city.isNotBlank() && (startDate != null && endDate != null)
             ) {
                 Text(
                     text = stringResource(id = R.string.create_trip_button),
@@ -218,7 +222,7 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                 )
             }
 
-            if (showSelectCityBottomSheet){
+            if (showSelectCityBottomSheet) {
                 SelectDatesBottomSheet(
                     onDismiss = { showSelectCityBottomSheet = false },
                     onSelectCountry = {
@@ -228,13 +232,29 @@ fun PlanTripSection(modifier: Modifier = Modifier) {
                 )
             }
 
-            if (showDateSelectorBottomSheet){
+            if (showDateSelectorBottomSheet) {
                 SelectDatesBottomSheet(
-                    onDismiss = {showDateSelectorBottomSheet = false},
+                    onDismiss = { showDateSelectorBottomSheet = false },
                     onDateRangeSelected = { start, end ->
                         startDate = start
                         endDate = end
                         showDateSelectorBottomSheet = false
+                    }
+                )
+            }
+
+            if (showCreateTripBottomSheet) {
+                CreateTripModalSheet(
+                    onDismiss = { showCreateTripBottomSheet = false },
+                    onCreateTrip = { name, category, description ->
+                        val trip = Trip(name = name,
+                            category = category,
+                            description = description,
+                            city = city,
+                            startDate = startDate,
+                            endDate = endDate
+                        )
+                        showCreateTripBottomSheet = false
                     }
                 )
             }

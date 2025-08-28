@@ -55,7 +55,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import com.deaelum.android.gopaddi.R
+import com.deaelum.android.gopaddi.ui.util.Utils
 import com.deaelum.android.gopaddi.ui.util.Utils.Constants.getFormatedDate
+import com.deaelum.android.gopaddi.ui.util.Utils.Constants.showToast
 import java.sql.Date
 import java.time.LocalDate
 import java.time.YearMonth
@@ -68,7 +70,7 @@ import java.util.Locale
 @Composable
 fun SelectDatesBottomSheet(
     startMonth: YearMonth = YearMonth.now(),
-    monthsToShow: Int = 3,
+    monthsToShow: Int = 4,
     onDateRangeSelected: (LocalDate?, LocalDate?) -> Unit = { _, _ -> },
     onDismiss: () -> Unit = {}
 ) {
@@ -124,15 +126,12 @@ fun SelectDatesBottomSheet(
                         endDate = endDate,
                         onDayClick = { day ->
                             if (day.isBefore(LocalDate.now()) ){
-                                Toast.makeText(
-                                    context,
-                                    "Select valid date",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                showToast(context, "Select valid date")
                             }else {
                                 if (startDate == null || (startDate != null && endDate != null)) {
                                     startDate = day
                                     endDate = null
+                                    showToast(context, "Select end date")
                                 } else if (startDate != null && endDate == null) {
                                     if (day.isBefore(startDate) ) {
                                         // swap
@@ -172,7 +171,8 @@ fun SelectDatesBottomSheet(
                             .padding(vertical = 12.dp)
                             .height(50.dp),
                         shape = RoundedCornerShape(6.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0D6EFD))
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0D6EFD)),
+                        enabled = startDate != null && endDate != null
                     ) {
                         Text(
                             text = stringResource(id = R.string.choose_date_button),
