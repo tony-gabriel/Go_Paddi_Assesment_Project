@@ -94,7 +94,9 @@ fun TripItem(modifier: Modifier = Modifier, trip: Trip) {
                 )
                 Spacer(modifier.weight(1f))
                 Text(
-                    text = "${ChronoUnit.DAYS.between(trip.startDate, trip.endDate)} days",
+                    text = if(trip.startDate != null && trip.endDate != null)
+                        "${ChronoUnit.DAYS.between(trip.startDate, trip.endDate)} days"
+                    else "N/A",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)

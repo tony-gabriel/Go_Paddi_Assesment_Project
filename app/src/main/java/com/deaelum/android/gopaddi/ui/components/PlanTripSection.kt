@@ -54,7 +54,7 @@ fun PlanTripSection(modifier: Modifier = Modifier, viewModel: TripViewModel) {
     var showSelectCityBottomSheet by remember { mutableStateOf(false) }
     var showDateSelectorBottomSheet by remember { mutableStateOf(false) }
     var showCreateTripBottomSheet by remember { mutableStateOf(false) }
-    val allTrips = viewModel.trips.observeAsState()
+    //val allTrips = viewModel.trips.observeAsState()
 
     Column(
         modifier = modifier
@@ -257,18 +257,18 @@ fun PlanTripSection(modifier: Modifier = Modifier, viewModel: TripViewModel) {
                             startDate = startDate,
                             endDate = endDate
                         )
-                        viewModel.createTrip(trip)
+                        //viewModel.createTrip(trip)
                         showCreateTripBottomSheet = false
                     }
                 )
             }
 
-            when(allTrips.value){
+            /*when(allTrips.value){
                 is NetworkResponse.Error -> TODO()
                 NetworkResponse.Loading -> TODO()
                 is NetworkResponse.Success<*> -> TODO()
                 null -> TODO()
-            }
+            }*/
 
 
         }

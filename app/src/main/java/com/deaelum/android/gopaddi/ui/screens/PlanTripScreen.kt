@@ -24,12 +24,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import com.deaelum.android.gopaddi.ui.components.PlanTripSection
 import com.deaelum.android.gopaddi.ui.components.YourTripsSection
+import com.deaelum.android.gopaddi.ui.data.Trip
 import com.deaelum.android.gopaddi.viewModel.TripViewModel
+import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlanTripScreen(modifier: Modifier = Modifier, viewModel: TripViewModel) {
+
+    val trips = mutableListOf<Trip>()
+//        Trip(
+//            name = "Trip to bahamas",
+//            category = "Solo",
+//            description = "Fun trip",
+//            city = "Qatar",
+//            startDate = LocalDate.now(),
+//            endDate = LocalDate.now(),
+//        ),
+//
+//        Trip(
+//            name = "Trip to bahamas 2",
+//            category = "Solo",
+//            description = "Fun trip",
+//            city = "Qatar",
+//            startDate = LocalDate.now(),
+//            endDate = LocalDate.now(),
+//        )
+    //)
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -60,7 +83,7 @@ fun PlanTripScreen(modifier: Modifier = Modifier, viewModel: TripViewModel) {
         ) {
             PlanTripSection(Modifier.weight(1f), viewModel)
 
-            //YourTripsSection()
+            //YourTripsSection(trips = trips)
         }
     }
 }
