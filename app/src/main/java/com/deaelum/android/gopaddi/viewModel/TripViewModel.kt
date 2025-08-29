@@ -16,6 +16,9 @@ class TripViewModel: ViewModel() {
     private val _trips = MutableLiveData<List<Trip>>()
     val trips: LiveData<List<Trip>> = _trips
 
+    private val _trip = MutableLiveData<Trip>()
+    val trip: LiveData<Trip> = _trip
+
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -35,6 +38,23 @@ class TripViewModel: ViewModel() {
 
     fun loadData(){
         getAllTrips()
+    }
+
+    fun getTrip(id: String){
+        viewModelScope.launch {
+            _isLoading.postValue(true)
+
+            NetworkRequest.getSingleTrip(id, object : NetworkRequest.GetTripListener{
+                override fun onTripRetrieved(trip: Trip) {
+                    _trip.postValue(trip)
+                    _isLoading.postValue(false)
+                }
+
+                override fun onError(message: String) {
+                    TODO("Not yet implemented")
+                }
+            })
+        }
     }
 
     fun getAllTrips() {

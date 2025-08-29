@@ -39,21 +39,47 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.deaelum.android.gopaddi.R
 import com.deaelum.android.gopaddi.ui.data.Trip
 import com.deaelum.android.gopaddi.ui.data.TripCategory
+import com.deaelum.android.gopaddi.viewModel.TripViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun YourTripsSection(modifier: Modifier = Modifier, trips: List<Trip>) {
+fun YourTripsSection(
+    modifier: Modifier = Modifier,
+    trips: List<Trip>,
+    onNavigate: (String) -> Unit = {}
+) {
+
 
     LazyColumn(
-        modifier.fillMaxWidth()) {
-        item {HeaderSection()}
+        modifier.fillMaxSize()
+    ) {
+        item { HeaderSection() }
 
-        items(trips) {
-            TripItem(trip = it)
+        if (trips.isEmpty()) {
+
+            item {
+                Box(
+                    modifier.fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("No Trips created yet")
+                }
+            }
+        } else {
+
+            items(trips) {
+
+                TripItem(
+                    trip = it,
+                    onClick = { onNavigate(it.id) }
+                )
+
+            }
         }
     }
 

@@ -39,7 +39,7 @@ class Utils {
             )
 
 
-            return SimpleDateFormat("ddd MMMMM yyyy", java.util.Locale.getDefault())
+            return SimpleDateFormat("dd MMMM yyyy", java.util.Locale.getDefault())
                 .format(dateFromLocalDate)
         }
 

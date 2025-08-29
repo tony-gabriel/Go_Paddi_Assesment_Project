@@ -49,6 +49,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.deaelum.android.gopaddi.R
 import com.deaelum.android.gopaddi.ui.components.PlanTripSection
 import com.deaelum.android.gopaddi.ui.components.TripItem
@@ -64,7 +65,7 @@ import java.time.LocalDate
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PlanTripScreen(modifier: Modifier = Modifier, viewModel: TripViewModel) {
+fun PlanTripScreen(viewModel: TripViewModel, onNavToViewDetail: ()-> Unit) {
     val configuration = LocalConfiguration.current
     val context = LocalContext.current
 
@@ -80,8 +81,8 @@ fun PlanTripScreen(modifier: Modifier = Modifier, viewModel: TripViewModel) {
             category = "Solo",
             description = "Fun trip",
             city = "Qatar",
-            startDate = LocalDate.parse("2025-08-29"),
-            endDate = LocalDate.parse("2025-08-31"),
+            startDate = "2025-08-29",
+            endDate = "2025-08-31",
         ),
 
         Trip(
@@ -89,8 +90,8 @@ fun PlanTripScreen(modifier: Modifier = Modifier, viewModel: TripViewModel) {
             category = "Solo",
             description = "Fun trip",
             city = "Qatar",
-            startDate = LocalDate.parse("2025-08-29"),
-            endDate = LocalDate.parse("2025-09-29"),
+            startDate = "2025-08-29",
+            endDate = "2025-09-29",
         )
     )
 
@@ -132,13 +133,17 @@ fun PlanTripScreen(modifier: Modifier = Modifier, viewModel: TripViewModel) {
 
                 LazyColumn {
                     item { PlanTripSection(
-                        Modifier.height(screenHeightDp-55.dp),
+                        Modifier.height(screenHeightDp-65.dp),
                         viewModel
                     ) }
 
                     item { YourTripsSection(
-                        Modifier.height(screenHeightDp),
-                        trips
+                        Modifier.height(screenHeightDp-65.dp),
+                        trips,
+                        onNavigate = {id->
+                            viewModel.getTrip(id)
+                            onNavToViewDetail()
+                        }
                     ) }
                 }
             }

@@ -31,13 +31,18 @@ import com.deaelum.android.gopaddi.R
 import com.deaelum.android.gopaddi.ui.data.Trip
 import com.deaelum.android.gopaddi.ui.util.Utils
 import com.deaelum.android.gopaddi.ui.util.Utils.Constants.getFullFormatedDate
+import com.deaelum.android.gopaddi.viewModel.TripViewModel
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun TripItem(modifier: Modifier = Modifier, trip: Trip) {
+fun TripItem(
+    trip: Trip,
+    onClick: ()-> Unit = {},
+) {
     Column(
         modifier = Modifier
             .padding(horizontal = 16.dp, vertical = 4.dp)
@@ -47,7 +52,8 @@ fun TripItem(modifier: Modifier = Modifier, trip: Trip) {
     ) {
 
         Box(
-            modifier = Modifier.wrapContentSize()
+            modifier = Modifier
+                .wrapContentSize()
                 .padding(16.dp),
             contentAlignment = Alignment.Center
         ) {
@@ -63,7 +69,7 @@ fun TripItem(modifier: Modifier = Modifier, trip: Trip) {
             Box(
                 modifier = Modifier
                     .padding(8.dp)
-                    .align ( Alignment.TopEnd )
+                    .align(Alignment.TopEnd)
                     .background(
                         color = Color.Gray.copy(alpha = 0.8f),
                         shape = RoundedCornerShape(4.dp)
@@ -86,16 +92,21 @@ fun TripItem(modifier: Modifier = Modifier, trip: Trip) {
                 modifier = Modifier.padding(start = 16.dp)
             )
 
-            Row{
+            Row {
                 Text(
-                    text = getFullFormatedDate(trip.startDate),
+                    text = getFullFormatedDate(LocalDate.parse(trip.startDate)),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
                 Spacer(Modifier.weight(1f))
                 Text(
-                    text = if(trip.startDate != null && trip.endDate != null)
-                        "${ChronoUnit.DAYS.between(trip.startDate, trip.endDate)} days"
+                    text = if (trip.startDate != null && trip.endDate != null)
+                        "${
+                            ChronoUnit.DAYS.between(
+                                LocalDate.parse(trip.startDate),
+                                LocalDate.parse(trip.endDate)
+                            )
+                        } days"
                     else "N/A",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -104,7 +115,7 @@ fun TripItem(modifier: Modifier = Modifier, trip: Trip) {
             }
 
             Button(
-                onClick = {},
+                onClick = onClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(12.dp),

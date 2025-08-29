@@ -269,8 +269,8 @@ fun PlanTripSection(modifier: Modifier = Modifier, viewModel: TripViewModel) {
                             category = category,
                             description = description,
                             city = city,
-                            startDate = startDate,
-                            endDate = endDate
+                            startDate = startDate.toString(),
+                            endDate = endDate.toString()
                         )
                         viewModel.createTrip(trip)
                         showCreateTripBottomSheet = false
