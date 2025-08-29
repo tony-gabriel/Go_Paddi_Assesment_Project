@@ -1,69 +1,84 @@
 package com.deaelum.android.gopaddi.viewModel
 
+import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.deaelum.android.gopaddi.network.NetworkResponse
-import com.deaelum.android.gopaddi.network.RetrofitInstance
+import com.deaelum.android.gopaddi.network.NetworkRequest
 import com.deaelum.android.gopaddi.ui.data.Trip
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class TripViewModel: ViewModel() {
-    private val tripApi = RetrofitInstance.tripApi
-    private val _trips = MutableLiveData<NetworkResponse<Trip>>()
-    val trips: LiveData<NetworkResponse<Trip>> = _trips
+    private val _trips = MutableLiveData<List<Trip>>()
+    val trips: LiveData<List<Trip>> = _trips
 
-    private val _trip = MutableLiveData<NetworkResponse<Trip>>()
+    private val _isLoading = MutableLiveData(false)
+    val isLoading: LiveData<Boolean> = _isLoading
+
+    private val _isTripCreated = MutableLiveData(false)
+    val isTripCreated: LiveData<Boolean> = _isTripCreated
+
+    private val _tripCreatedError = MutableLiveData("")
+    val tripCreatedError: LiveData<String> = _tripCreatedError
+
+    private val _getTripsError = MutableLiveData("")
+    val getTripsError: LiveData<String> = _getTripsError
+
+
+    init {
+        loadData()
+    }
+
+    fun loadData(){
+        getAllTrips()
+    }
 
     fun getAllTrips() {
-        _trips.value = NetworkResponse.Loading
+        _isLoading.postValue(true)
 
         viewModelScope.launch {
-
-            try {
-                val response = tripApi.getAllTrips()
-
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        _trips.value = NetworkResponse.Success(it) as NetworkResponse<Trip>?
-                    }
-                } else {
-                    response.errorBody()?.let {
-                        _trips.value = NetworkResponse.Error("${response.code()} $it")
-                    }
+            NetworkRequest.getAllTrips(object : NetworkRequest.GetTripsListener {
+                override fun onTripsRetrieved(trips: List<Trip>) {
+                    _trips.postValue(trips)
+                    _isLoading.postValue(false)
                 }
 
-            } catch (e: Exception) {
-                _trips.value = NetworkResponse.Error(e.message ?: "Unknown error")
-            }
+                override fun onError(message: String) {
+                   _getTripsError.postValue(message)
+                    _isLoading.postValue(false)
+                }
+            })
         }
     }
 
     fun createTrip(trip: Trip){
-        _trip.value = NetworkResponse.Loading
+        _isLoading.postValue(true)
 
-        viewModelScope.launch {
-            try {
-                val response = tripApi.saveTrip(trip)
-
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        _trip.value = NetworkResponse.Success(it) as NetworkResponse<Trip>?
-                    }
-                }else{
-                    response.errorBody()?.let {
-                        _trip.value = NetworkResponse.Error("${response.code()} $it")
-                    }
-                }
-
-
-            }catch (e: Exception){
-                _trip.value = NetworkResponse.Error(e.message ?: "Unknown error")
+        NetworkRequest.createTrip(trip, object : NetworkRequest.CreateTripListener {
+            override fun onTripCreated(onSuccess: Boolean) {
+                _isLoading.postValue(false)
+                _isTripCreated.postValue(onSuccess)
+                loadData()
             }
 
-        }
+            override fun onError(message: String) {
+                _isLoading.postValue(false)
+                _tripCreatedError.postValue(message)
+            }
+        })
+    }
 
+    fun resetCreateTrip(){
+        _isTripCreated.value = false
+    }
+
+    fun resetErrors(){
+        _tripCreatedError.value = ""
+        _getTripsError.value = ""
     }
 
 }

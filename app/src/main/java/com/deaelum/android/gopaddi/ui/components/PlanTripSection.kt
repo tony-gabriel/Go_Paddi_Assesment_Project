@@ -34,32 +34,41 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.deaelum.android.gopaddi.R
-import com.deaelum.android.gopaddi.network.NetworkResponse
+import com.deaelum.android.gopaddi.network.NetworkRequest
+import com.deaelum.android.gopaddi.network.NetworkRequest.GetTripsListener
 import com.deaelum.android.gopaddi.ui.data.Trip
+import com.deaelum.android.gopaddi.ui.util.Utils
 import com.deaelum.android.gopaddi.ui.util.Utils.Constants.getFormatedDate
+import com.deaelum.android.gopaddi.ui.util.Utils.Constants.showToast
+import com.deaelum.android.gopaddi.ui.widgets.LoadingDialog
 import com.deaelum.android.gopaddi.viewModel.TripViewModel
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun PlanTripSection(modifier: Modifier = Modifier, viewModel: TripViewModel) {
+    val context = LocalContext.current
     var city by remember { mutableStateOf("") }
     var startDate by remember { mutableStateOf<LocalDate?>(null) }
     var endDate by remember { mutableStateOf<LocalDate?>(null) }
     var showSelectCityBottomSheet by remember { mutableStateOf(false) }
     var showDateSelectorBottomSheet by remember { mutableStateOf(false) }
     var showCreateTripBottomSheet by remember { mutableStateOf(false) }
-    //val allTrips = viewModel.trips.observeAsState()
+    val isLoading by viewModel.isLoading.observeAsState(false)
+    val isTripCreated = viewModel.isTripCreated.observeAsState(false)
+    val tripCreatedError = viewModel.tripCreatedError.observeAsState("")
+
 
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(Color.Gray.copy(alpha = 0.2f)),
+            .background(Color.Gray.copy(alpha = 0.1f)),
         // verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Column {
@@ -208,14 +217,21 @@ fun PlanTripSection(modifier: Modifier = Modifier, viewModel: TripViewModel) {
             }
 
             Button(
-                onClick = { showCreateTripBottomSheet = true },
+                onClick = {
+                    if (city.isBlank() && (startDate == null && endDate == null)){
+                        showToast(context, "Please fill all the fields")
+                        return@Button
+                    }
+                    showCreateTripBottomSheet = true
+                          },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 12.dp, vertical = 12.dp)
                     .height(56.dp),
                 shape = RoundedCornerShape(6.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0D6EFD)),
-                enabled = city.isNotBlank() && (startDate != null && endDate != null)
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0D6EFD),
+                    disabledContainerColor = Color(0xFF0DB1FD)
+                ),
             ) {
                 Text(
                     text = stringResource(id = R.string.create_trip_button),
@@ -256,20 +272,24 @@ fun PlanTripSection(modifier: Modifier = Modifier, viewModel: TripViewModel) {
                             startDate = startDate,
                             endDate = endDate
                         )
-                        //viewModel.createTrip(trip)
+                        viewModel.createTrip(trip)
                         showCreateTripBottomSheet = false
                     }
                 )
             }
 
-            /*when(allTrips.value){
-                is NetworkResponse.Error -> TODO()
-                NetworkResponse.Loading -> TODO()
-                is NetworkResponse.Success<*> -> TODO()
-                null -> TODO()
-            }*/
+            if (isTripCreated.value){
+                showToast(context, "Trip created successfully")
+                viewModel.resetCreateTrip()
+            }
+            if (tripCreatedError.value.isNotBlank()){
+                showToast(context, tripCreatedError.value)
+                viewModel.resetErrors()
+            }
 
-
+            if (isLoading){
+                LoadingDialog()
+            }
         }
 
     }

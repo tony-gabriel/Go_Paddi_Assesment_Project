@@ -57,7 +57,7 @@ fun CreateTripModalSheet(
     onDismiss: () -> Unit = {},
     onCreateTrip: (String, String, String) -> Unit = { _, _, _ -> },
 ) {
-    val sheetState = rememberModalBottomSheetState()
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var tripCategory by remember { mutableStateOf(TripStyle.SOLO) }
     var expanded by remember { mutableStateOf(false) }
     var tripName by remember { mutableStateOf("") }
