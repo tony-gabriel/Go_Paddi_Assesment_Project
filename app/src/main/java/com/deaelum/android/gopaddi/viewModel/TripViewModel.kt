@@ -51,7 +51,8 @@ class TripViewModel: ViewModel() {
                 }
 
                 override fun onError(message: String) {
-                    TODO("Not yet implemented")
+                    _getTripsError.postValue(message)
+                    _isLoading.postValue(false)
                 }
             })
         }

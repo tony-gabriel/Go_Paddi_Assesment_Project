@@ -57,6 +57,7 @@ fun TripDetailScreen(viewModel: TripViewModel, onNavBack: () -> Unit) {
     val tripState = viewModel.trip.observeAsState()
     val trip = tripState.value ?: Trip()
     val isLoading by viewModel.isLoading.observeAsState(false)
+    val getTripsError by viewModel.getTripsError.observeAsState("")
 
 
 
@@ -91,11 +92,13 @@ fun TripDetailScreen(viewModel: TripViewModel, onNavBack: () -> Unit) {
                 if (trip.city.isNotBlank()) {
                     TripPlannerScreen(trip)
                 } else {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text("No Trips created yet")
+                    if (getTripsError.isNotBlank()) {
+                        Box(
+                            modifier = Modifier.fillMaxSize().padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(getTripsError)
+                        }
                     }
                 }
             }

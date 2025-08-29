@@ -20,7 +20,6 @@ fun LoadingDialog(modifier: Modifier = Modifier, msg: String = "Please wait...")
         contentAlignment = Alignment.Center) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             CircularProgressIndicator()
-            Spacer(modifier.height(5.dp))
             Text(msg)
         }
     }
