@@ -86,7 +86,7 @@ fun TripDetailScreen(viewModel: TripViewModel, onNavBack: () -> Unit) {
                 .fillMaxWidth()
         ) {
             if (isLoading) {
-                LoadingDialog()
+                LoadingDialog(msg = "Loading...")
             }else{
                 if (trip.city.isNotBlank()) {
                     TripPlannerScreen(trip)

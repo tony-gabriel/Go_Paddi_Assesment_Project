@@ -16,7 +16,7 @@ import java.lang.Exception
 
 class NetworkRequest {
     val gson = Gson()
-    val tripsUrl = "https://ca97d5a5b32980fdad22.free.beeceptor.com/api/trips"
+    val tripsUrl = "https://caca18968819c215e3d8.free.beeceptor.com/api/trips"
 
     companion object{
         private val instance = NetworkRequest()
