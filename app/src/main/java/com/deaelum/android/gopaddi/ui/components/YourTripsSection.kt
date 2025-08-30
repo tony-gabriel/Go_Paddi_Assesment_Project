@@ -107,7 +107,7 @@ fun HeaderSection(modifier: Modifier = Modifier) {
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = !expanded },
-            modifier = Modifier.background(color = Color(0xFFF3F0F0))
+            //modifier = Modifier.background(color = MaterialTheme.colorScheme.primaryContainer)
         ) {
 
             Box(

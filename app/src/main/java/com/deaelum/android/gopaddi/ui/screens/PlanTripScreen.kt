@@ -133,12 +133,12 @@ fun PlanTripScreen(viewModel: TripViewModel, onNavToViewDetail: ()-> Unit) {
 
                 LazyColumn {
                     item { PlanTripSection(
-                        Modifier.height(screenHeightDp-80.dp),
+                        Modifier.height(screenHeightDp-120.dp),
                         viewModel
                     ) }
 
                     item { YourTripsSection(
-                        Modifier.height(screenHeightDp-80.dp),
+                        Modifier.height(screenHeightDp-120.dp),
                         trips,
                         onNavigate = {id->
                             viewModel.getTrip(id)
