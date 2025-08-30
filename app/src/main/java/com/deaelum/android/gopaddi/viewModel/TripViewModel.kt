@@ -1,16 +1,12 @@
 package com.deaelum.android.gopaddi.viewModel
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deaelum.android.gopaddi.network.NetworkRequest
 import com.deaelum.android.gopaddi.ui.data.Trip
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class TripViewModel: ViewModel() {
     private val _trips = MutableLiveData<List<Trip>>()
