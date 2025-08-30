@@ -10,10 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.deaelum.android.gopaddi.ui.theme.GoPaddiTheme
 import com.deaelum.android.gopaddi.ui.screens.PlanTripScreen
 import com.deaelum.android.gopaddi.ui.screens.TripDetailScreen
-import com.deaelum.android.gopaddi.ui.screens.TripDetailsSection
+import com.deaelum.android.gopaddi.ui.theme.GoPaddiTheme
 import com.deaelum.android.gopaddi.viewModel.TripViewModel
 
 class MainActivity : ComponentActivity() {

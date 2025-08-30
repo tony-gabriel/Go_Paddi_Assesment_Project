@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -107,12 +108,12 @@ fun PlanTripScreen(viewModel: TripViewModel, onNavToViewDetail: ()-> Unit) {
 
                     Row(Modifier.fillMaxSize()) {
                         PlanTripSection(
-                            Modifier.weight(1f).height(screenHeightDp-120.dp),
+                            Modifier.weight(1f).fillMaxHeight(),
                             viewModel
                         )
                         Spacer(Modifier.width(10.dp))
                         YourTripsSection(
-                            Modifier.weight(1f).height(screenHeightDp-120.dp),
+                            Modifier.weight(1f).fillMaxHeight(),
                             trips,
                             onNavigate = {id->
                                 viewModel.getTrip(id)
