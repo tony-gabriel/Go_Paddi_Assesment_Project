@@ -4,9 +4,13 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -94,26 +98,50 @@ fun PlanTripScreen(viewModel: TripViewModel, onNavToViewDetail: ()-> Unit) {
                     .padding(innerPadding)
                     .fillMaxWidth()
                     .height(screenHeightDp)
-                    .background(Color.White)
             ) {
                 if (allTrips.value != null) {
                     trips = allTrips.value as MutableList<Trip>
                 }
 
-                LazyColumn {
-                    item { PlanTripSection(
-                        Modifier.height(screenHeightDp-120.dp),
-                        viewModel
-                    ) }
+                if (screenWidthDp > 600.dp){
 
-                    item { YourTripsSection(
-                        Modifier.height(screenHeightDp-120.dp),
-                        trips,
-                        onNavigate = {id->
-                            viewModel.getTrip(id)
-                            onNavToViewDetail()
+                    Row(Modifier.fillMaxSize()) {
+                        PlanTripSection(
+                            Modifier.weight(1f).height(screenHeightDp-120.dp),
+                            viewModel
+                        )
+                        Spacer(Modifier.width(10.dp))
+                        YourTripsSection(
+                            Modifier.weight(1f).height(screenHeightDp-120.dp),
+                            trips,
+                            onNavigate = {id->
+                                viewModel.getTrip(id)
+                                onNavToViewDetail()
+                            }
+                        )
+                    }
+
+                }else {
+
+                    LazyColumn {
+                        item {
+                            PlanTripSection(
+                                Modifier.height(screenHeightDp - 120.dp),
+                                viewModel
+                            )
                         }
-                    ) }
+
+                        item {
+                            YourTripsSection(
+                                Modifier.height(screenHeightDp - 120.dp),
+                                trips,
+                                onNavigate = { id ->
+                                    viewModel.getTrip(id)
+                                    onNavToViewDetail()
+                                }
+                            )
+                        }
+                    }
                 }
             }
         }
