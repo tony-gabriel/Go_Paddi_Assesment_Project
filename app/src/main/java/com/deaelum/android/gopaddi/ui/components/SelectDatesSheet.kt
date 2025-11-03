@@ -86,6 +86,7 @@ fun SelectDatesBottomSheet(
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth(),
+        dragHandle = null,
     ) {
         Column(
             modifier = Modifier
@@ -113,28 +114,28 @@ fun SelectDatesBottomSheet(
             Divider()
 
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
                     .verticalScroll(rememberScrollState())
                     .padding(top = 16.dp)
             ) {
 
                 repeat(monthsToShow) { index ->
-                    val ym =
-                        startMonth.plusMonths(index.toLong())
+                    val ym = startMonth.plusMonths(index.toLong())
                     MonthView(
                         yearMonth = ym,
                         startDate = startDate,
                         endDate = endDate,
                         onDayClick = { day ->
-                            if (day.isBefore(LocalDate.now()) ){
+                            if (day.isBefore(LocalDate.now())) {
                                 showToast(context, "Select valid date")
-                            }else {
+                            } else {
                                 if (startDate == null || (startDate != null && endDate != null)) {
                                     startDate = day
                                     endDate = null
                                     showToast(context, "Select end date")
                                 } else if (startDate != null && endDate == null) {
-                                    if (day.isBefore(startDate) ) {
+                                    if (day.isBefore(startDate)) {
                                         // swap
                                         endDate = startDate
                                         startDate = day
@@ -156,14 +157,25 @@ fun SelectDatesBottomSheet(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 10.dp)) {
-                    Row(modifier = Modifier.fillMaxWidth(),
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 10.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        DateColumn(Modifier.weight(1f),stringResource(id = R.string.start_date), startDate)
-                        DateColumn(Modifier.weight(1f),stringResource(id = R.string.end_date), endDate)
+                        DateColumn(
+                            Modifier.weight(1f),
+                            stringResource(id = R.string.start_date),
+                            startDate
+                        )
+                        DateColumn(
+                            Modifier.weight(1f),
+                            stringResource(id = R.string.end_date),
+                            endDate
+                        )
                     }
 
                     Button(
@@ -192,9 +204,9 @@ fun SelectDatesBottomSheet(
 @Composable
 fun DateColumn(modifier: Modifier = Modifier, label: String, value: LocalDate?) {
     Column(
-       modifier = modifier,
+        modifier = modifier,
 
-    ) {
+        ) {
         Text(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
@@ -203,7 +215,8 @@ fun DateColumn(modifier: Modifier = Modifier, label: String, value: LocalDate?) 
         Spacer(Modifier.height(8.dp))
 
         Row(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .height(50.dp)
                 .border(width = 1.dp, color = Color.Gray.copy(alpha = 0.5f), shape = RectangleShape)
                 .clip(RoundedCornerShape(5.dp)),
@@ -218,7 +231,9 @@ fun DateColumn(modifier: Modifier = Modifier, label: String, value: LocalDate?) 
             Icon(
                 imageVector = Icons.Outlined.CalendarToday,
                 contentDescription = "Calendar icon",
-                modifier = Modifier.padding(end = 16.dp).size(16.dp),
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .size(16.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
@@ -243,7 +258,12 @@ fun MonthView(
     Column {
         // Month title
         Text(
-            text = "${yearMonth.month.getDisplayName(TextStyle.FULL, Locale.getDefault())} ${yearMonth.year}",
+            text = "${
+                yearMonth.month.getDisplayName(
+                    TextStyle.FULL,
+                    Locale.getDefault()
+                )
+            } ${yearMonth.year}",
             fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -253,7 +273,13 @@ fun MonthView(
         // Weekday headers
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             listOf("Mo", "Tu", "We", "Th", "Fr", "Sa", "Su").forEach {
-                Text(it, fontSize = 12.sp, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                Text(
+                    it,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium,
+                    modifier = Modifier.weight(1f),
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                )
             }
         }
 
@@ -273,7 +299,10 @@ fun MonthView(
                     Box(modifier = Modifier.size(40.dp))
                 } else {
                     val selected = (date == startDate || date == endDate)
-                    val inRange = startDate != null && endDate != null && (date.isAfter(startDate) && date.isBefore(endDate))
+                    val inRange =
+                        startDate != null && endDate != null && (date.isAfter(startDate) && date.isBefore(
+                            endDate
+                        ))
 
                     Box(
                         modifier = Modifier

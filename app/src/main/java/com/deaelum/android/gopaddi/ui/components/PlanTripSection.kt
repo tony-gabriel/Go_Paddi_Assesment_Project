@@ -97,8 +97,8 @@ fun PlanTripSection(modifier: Modifier = Modifier, viewModel: TripViewModel) {
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { showSelectCityBottomSheet = true }
-                    .padding(horizontal = 12.dp, vertical = 12.dp),
+                    .padding(horizontal = 12.dp, vertical = 12.dp)
+                    .clickable{ showSelectCityBottomSheet = true },
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFF3F0F0)),
                 border = BorderStroke(1.dp, Color.Gray.copy(alpha = 0.5f))
             ) {

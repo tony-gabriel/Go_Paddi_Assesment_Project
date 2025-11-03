@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -75,7 +77,7 @@ fun CreateTripModalSheet(
 
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .padding(16.dp)
         ) {
             Row(
@@ -85,7 +87,7 @@ fun CreateTripModalSheet(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Image(
-                    painter = painterResource(id= R.drawable.icon1),
+                    painter = painterResource(id = R.drawable.icon1),
                     contentDescription = "icon",
                 )
 
@@ -98,7 +100,7 @@ fun CreateTripModalSheet(
             }
 
             Text(
-                text =  stringResource(id = R.string.create_trip_button),
+                text = stringResource(id = R.string.create_trip_button),
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 8.dp)
@@ -110,7 +112,7 @@ fun CreateTripModalSheet(
             )
 
             Text(
-                text =  "Trip Name",
+                text = "Trip Name",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 18.dp, bottom = 4.dp)
@@ -118,14 +120,14 @@ fun CreateTripModalSheet(
 
             OutlinedTextField(
                 value = tripName,
-                onValueChange = {tripName = it},
-                placeholder = {Text("Enter the trip Name")},
+                onValueChange = { tripName = it },
+                placeholder = { Text("Enter the trip Name") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
             )
 
             Text(
-                text =  "Trip Style",
+                text = "Trip Style",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 10.dp, bottom = 4.dp)
@@ -163,7 +165,7 @@ fun CreateTripModalSheet(
             }
 
             Text(
-                text =  "Trip Description",
+                text = "Trip Description",
                 style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 10.dp, bottom = 4.dp)
@@ -171,10 +173,11 @@ fun CreateTripModalSheet(
 
             OutlinedTextField(
                 value = tripDescription,
-                onValueChange = {tripDescription = it },
-                placeholder = {Text("Tell us more about the trip")},
-                modifier = Modifier.fillMaxWidth()
-                .height(188.dp),
+                onValueChange = { tripDescription = it },
+                placeholder = { Text("Tell us more about the trip") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(188.dp),
             )
 
             Button(
@@ -194,5 +197,7 @@ fun CreateTripModalSheet(
                 )
             }
         }
+
     }
+
 }

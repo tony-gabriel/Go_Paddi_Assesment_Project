@@ -51,6 +51,7 @@ fun SelectDatesBottomSheet(
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth(),
+        dragHandle = null,
     ) {
 
         Column(
@@ -89,13 +90,14 @@ fun SelectDatesBottomSheet(
             OutlinedTextField(
                 value = searchText,
                 onValueChange = { searchText = it },
+                placeholder = {Text("Search cities")},
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color(0xFF2196F3),
                 ),
-                singleLine = true
+                singleLine = true,
             )
             Spacer(modifier = Modifier.height(16.dp))
 
