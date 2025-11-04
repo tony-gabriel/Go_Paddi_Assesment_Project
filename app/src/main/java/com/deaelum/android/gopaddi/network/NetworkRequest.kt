@@ -1,7 +1,7 @@
 package com.deaelum.android.gopaddi.network
 
 import android.util.Log
-import com.deaelum.android.gopaddi.ui.data.Trip
+import com.deaelum.android.gopaddi.data.model.Trip
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import okhttp3.Call
@@ -19,7 +19,7 @@ class NetworkRequest {
     val tripsUrl = "https://caca18968819c215e3d8.free.beeceptor.com/api/trips"
 
     companion object{
-        private val instance = NetworkRequest()
+        /*private val instance = NetworkRequest()
         fun getAllTrips(listener: GetTripsListener){
             instance.getAllTrips(listener)
         }
@@ -28,7 +28,7 @@ class NetworkRequest {
         }
         fun getSingleTrip(id: String, listener: GetTripListener){
             instance.getSingleTrip(id, listener)
-        }
+        }*/
     }
 
 

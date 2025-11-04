@@ -10,10 +10,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.deaelum.android.gopaddi.ui.screens.PlanTripScreen
-import com.deaelum.android.gopaddi.ui.screens.TripDetailScreen
-import com.deaelum.android.gopaddi.ui.theme.GoPaddiTheme
-import com.deaelum.android.gopaddi.viewModel.TripViewModel
+import com.deaelum.android.gopaddi.presentation.screens.PlanTripScreen
+import com.deaelum.android.gopaddi.presentation.screens.TripDetailScreen
+import com.deaelum.android.gopaddi.presentation.theme.GoPaddiTheme
+import com.deaelum.android.gopaddi.presentation.viewModel.TripViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,7 +29,6 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "home") {
                     composable("home") {
                         PlanTripScreen(
-                            viewModel = viewModel,
                             onNavToViewDetail = { navController.navigate("view_details") })
                     }
                     composable("view_details") {
