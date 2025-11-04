@@ -29,13 +29,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.deaelum.android.gopaddi.R
 import com.deaelum.android.gopaddi.ui.data.Trip
-import com.deaelum.android.gopaddi.ui.util.Utils
-import com.deaelum.android.gopaddi.ui.util.Utils.Constants.getFullFormatedDate
-import com.deaelum.android.gopaddi.viewModel.TripViewModel
-import java.text.SimpleDateFormat
+import com.deaelum.android.gopaddi.ui.util.Constants.getFullFormatedDate
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
-import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

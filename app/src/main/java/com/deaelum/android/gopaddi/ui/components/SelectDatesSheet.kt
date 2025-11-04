@@ -2,7 +2,6 @@ package com.deaelum.android.gopaddi.ui.components
 
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -56,10 +55,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.times
 import com.deaelum.android.gopaddi.R
-import com.deaelum.android.gopaddi.ui.util.Utils
-import com.deaelum.android.gopaddi.ui.util.Utils.Constants.getFormatedDate
-import com.deaelum.android.gopaddi.ui.util.Utils.Constants.showToast
-import java.sql.Date
+import com.deaelum.android.gopaddi.ui.util.Constants.getFormatedDate
+import com.deaelum.android.gopaddi.ui.util.Constants.showToast
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
