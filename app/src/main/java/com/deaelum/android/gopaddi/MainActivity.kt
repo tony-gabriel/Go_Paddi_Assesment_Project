@@ -14,7 +14,9 @@ import com.deaelum.android.gopaddi.ui.screens.PlanTripScreen
 import com.deaelum.android.gopaddi.ui.screens.TripDetailScreen
 import com.deaelum.android.gopaddi.ui.theme.GoPaddiTheme
 import com.deaelum.android.gopaddi.viewModel.TripViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
