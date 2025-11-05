@@ -25,8 +25,6 @@ object NetworkModule {
                     level = HttpLoggingInterceptor.Level.NONE
                 }
             ).build()
-
-
     }
 
     @Provides

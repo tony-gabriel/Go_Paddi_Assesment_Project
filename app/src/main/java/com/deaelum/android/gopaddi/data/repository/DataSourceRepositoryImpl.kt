@@ -58,22 +58,23 @@ class DataSourceRepositoryImpl @Inject constructor(
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getTripById(id: String): Resources<Trip> {
-        return try {
+    override suspend fun getTripById(id: String): Flow<Resources<Trip>> = flow {
+        try {
+            emit(Resources.Loading())
             val response = apiService.getTripById(id)
             if (response.isSuccessful) {
                 val trip = response.body()
-                if (trip != null) Resources.Success(trip)
-                else Resources.Error("Trip not found")
+                if (trip != null) emit(Resources.Success(trip))
+                else emit(Resources.Error("Trip not found"))
 
-            } else Resources.Error(getErrorMsg(response.code()))
+            } else emit(Resources.Error(getErrorMsg(response.code())))
         } catch (e: HttpException) {
-            Resources.Error(getErrorMsg(e.code()))
+            emit(Resources.Error(getErrorMsg(e.code())))
         } catch (e: IOException) {
-            Resources.Error("Check your internet connection")
+            emit(Resources.Error("Check your internet connection"))
         } catch (e: Exception) {
-            Resources.Error("An unexpected error occurred")
+            emit(Resources.Error("An unexpected error occurred"))
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
 }

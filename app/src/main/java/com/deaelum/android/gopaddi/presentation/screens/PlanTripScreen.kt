@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,7 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.outlined.Error
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -60,14 +61,13 @@ import com.deaelum.android.gopaddi.presentation.widgets.LoadingDialog
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PlanTripScreen(
-    viewModel: TripViewModel = hiltViewModel(),
-    onNavToViewDetail: () -> Unit
+    homeViewModel: TripViewModel = hiltViewModel(),
+    onNavToViewDetail: (String) -> Unit
 ) {
     val configuration = LocalConfiguration.current
-    val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
+    val uiState by homeViewModel.homeUiState.collectAsStateWithLifecycle()
 
     val screenHeightDp = configuration.screenHeightDp.dp
-    val screenWidthDp = configuration.screenWidthDp.dp
 
     var trips = mutableListOf(
         Trip(
@@ -116,16 +116,16 @@ fun PlanTripScreen(
         when (val state = uiState) {
             is TripsUiState.Error -> {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row (verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            imageVector = Icons.Outlined.Error,
+                            imageVector = Icons.Outlined.Close,
                             contentDescription = "Error",
                             tint = Color.Red,
                             modifier = Modifier
-                                .align(Alignment.CenterHorizontally)
+                                .align(Alignment.CenterVertically)
                                 .size(30.dp)
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
                         Text(text = state.message)
                     }
                 }
@@ -136,51 +136,6 @@ fun PlanTripScreen(
             }
 
             is TripsUiState.Success -> {
-                /*Column(
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .safeContentPadding()
-                        .fillMaxWidth()
-                        .height(screenHeightDp)
-                ) {
-                    LazyColumn(modifier = Modifier.fillMaxSize()) {
-
-                        item {
-                            PlanTripSection(
-                                Modifier.weight(1f),
-                            )
-
-                            Spacer(Modifier.height(80.dp))
-                        }
-
-                        item {
-                            HeaderSection()
-                        }
-
-                        if (trips.isNotEmpty()) {
-                            item {
-                                Box(
-                                    modifier = Modifier.fillMaxSize(),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text("No trips create yet")
-                                }
-                            }
-                        } else {
-                            items(trips) { trip ->
-                                TripItem(
-                                    trip = trip,
-                                    onClick = {
-                                        viewModel.getTrip(trip.id)
-                                        onNavToViewDetail()
-                                    }
-                                )
-                            }
-                        }
-
-
-                    }
-                }*/
 
                 Column(
                     modifier = Modifier
@@ -199,14 +154,26 @@ fun PlanTripScreen(
 
                         item { HeaderSection() }
 
-                        items(trips) {
-                            TripItem(
-                                trip = it,
-                                onClick = {
-                                    viewModel.getTrip(it.id)
-                                    onNavToViewDetail()
+                        if (trips.isEmpty()) {
+                            item {
+                                Box(
+                                    modifier = Modifier.fillMaxSize().padding(16.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text("No trips found")
                                 }
-                            )
+                            }
+                        }
+                        else {
+
+                            items(trips) {
+                                TripItem(
+                                    trip = it,
+                                    onClick = {
+                                        onNavToViewDetail(it.id)
+                                    }
+                                )
+                            }
                         }
 
                     }
@@ -217,73 +184,12 @@ fun PlanTripScreen(
             }
         }
 
-
-        /*if (isLoading) {
-            LoadingDialog(Modifier.padding(innerPadding))
-
-        } else {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-                    .padding(innerPadding)
-                    .safeContentPadding()
-            ) {
-                if (allTrips != null) {
-                    trips = allTrips as MutableList<Trip>
-                }
-
-                if (screenWidthDp > 600.dp){
-
-                    Row(Modifier.fillMaxSize()) {
-                        PlanTripSection(
-                            Modifier
-                                .weight(1f)
-                                .fillMaxHeight(),
-                        )
-                        Spacer(Modifier.width(10.dp))
-                        YourTripsSection(
-                            Modifier
-                                .weight(1f)
-                                .fillMaxHeight(),
-                            trips,
-                            onNavigate = {id->
-                                viewModel.getTrip(id)
-                                onNavToViewDetail()
-                            }
-                        )
-                    }
-
-                }else {
-
-                    LazyColumn {
-                        item {
-                            PlanTripSection(
-                                Modifier.height(screenHeightDp - 120.dp),
-                            )
-                        }
-
-                        item {
-                            YourTripsSection(
-                                Modifier.height(screenHeightDp - 120.dp),
-                                trips,
-                                onNavigate = { id ->
-                                    viewModel.getTrip(id)
-                                    onNavToViewDetail()
-                                }
-                            )
-                        }
-                    }
-                }
-            }
-        }*/
-
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HeaderSection(modifier: Modifier = Modifier) {
+fun HeaderSection() {
     var selectedCategory by remember { mutableStateOf(TripCategory.TRIPS) }
     var expanded by remember { mutableStateOf(false) }
     Column {

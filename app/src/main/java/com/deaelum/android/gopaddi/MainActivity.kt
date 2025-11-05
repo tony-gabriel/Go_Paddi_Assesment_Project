@@ -21,7 +21,6 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val viewModel = ViewModelProvider(this)[TripViewModel::class.java]
         enableEdgeToEdge()
         setContent {
             GoPaddiTheme {
@@ -29,12 +28,16 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "home") {
                     composable("home") {
                         PlanTripScreen(
-                            onNavToViewDetail = { navController.navigate("view_details") })
+                            onNavToViewDetail = { navController.navigate("view_details/$it") })
                     }
-                    composable("view_details") {
-                        TripDetailScreen(onNavBack = { navController.popBackStack() },
-                            viewModel = viewModel
-                        )
+                    composable("view_details/{tripId}") {
+                        val tripId = it.arguments?.getString("tripId")
+                        if (tripId != null) {
+                            TripDetailScreen(
+                                tripId = tripId,
+                                onNavBack = { navController.popBackStack() },
+                            )
+                        }
                     }
                 }
             }

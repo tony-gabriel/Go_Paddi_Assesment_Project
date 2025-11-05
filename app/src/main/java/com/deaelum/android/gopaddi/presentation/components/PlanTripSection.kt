@@ -60,7 +60,6 @@ fun PlanTripSection(
     var showSelectCityBottomSheet by remember { mutableStateOf(false) }
     var showDateSelectorBottomSheet by remember { mutableStateOf(false) }
     var showCreateTripBottomSheet by remember { mutableStateOf(false) }
-    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val isTripCreated = viewModel.isTripCreated.collectAsStateWithLifecycle()
     val tripCreatedError = viewModel.tripCreatedError.collectAsStateWithLifecycle()
 
@@ -285,10 +284,6 @@ fun PlanTripSection(
             if (tripCreatedError.value.isNotBlank()){
                 showToast(context, tripCreatedError.value)
                 viewModel.resetErrors()
-            }
-
-            if (isLoading){
-                LoadingDialog()
             }
         }
 

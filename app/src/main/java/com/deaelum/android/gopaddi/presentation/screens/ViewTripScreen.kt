@@ -32,6 +32,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -45,25 +46,28 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deaelum.android.gopaddi.R
 import com.deaelum.android.gopaddi.data.model.Trip
-import com.deaelum.android.gopaddi.presentation.viewModel.TripDetailsState
-import com.deaelum.android.gopaddi.util.Constants.getFullFormatedDate
+import com.deaelum.android.gopaddi.presentation.viewModel.TripDetailUiState
+import com.deaelum.android.gopaddi.presentation.viewModel.TripDetailsViewModel
 import com.deaelum.android.gopaddi.presentation.widgets.ActivityCard
 import com.deaelum.android.gopaddi.presentation.widgets.ItineraryCard
 import com.deaelum.android.gopaddi.presentation.widgets.LoadingDialog
-import com.deaelum.android.gopaddi.presentation.viewModel.TripViewModel
+import com.deaelum.android.gopaddi.util.Constants.getFullFormatedDate
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TripDetailScreen(
-    viewModel: TripViewModel = hiltViewModel(),
+    tripId: String,
+    viewModel: TripDetailsViewModel = hiltViewModel(),
     onNavBack: () -> Unit
 ) {
-    val tripState by viewModel.trip.collectAsStateWithLifecycle()
-    val trip = tripState?: Trip()
-    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
-    val getTripsError by viewModel.getTripsError.collectAsStateWithLifecycle()
+    LaunchedEffect(tripId) {
+        viewModel.getSingleTripById(tripId)
+    }
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
 
     Scaffold(
         topBar = {
@@ -91,20 +95,20 @@ fun TripDetailScreen(
                 .fillMaxWidth()
         ) {
 
-            if (isLoading) {
-                LoadingDialog(msg = "Loading...")
-            }else{
-                if (trip.city.isNotBlank()) {
-                    TripPlannerScreen(trip)
-                } else {
-                    if (getTripsError.isNotBlank()) {
-                        Box(
-                            modifier = Modifier.fillMaxSize().padding(16.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(getTripsError)
-                        }
+            when(val state = uiState){
+                is TripDetailUiState.Error -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize().padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(state.message)
                     }
+                }
+                TripDetailUiState.Loading -> {
+                    LoadingDialog(msg = "Loading...")
+                }
+                is TripDetailUiState.Success -> {
+                    TripPlannerScreen(state.trip)
                 }
             }
         }
