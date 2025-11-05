@@ -54,7 +54,7 @@ The app integrates with these RESTful endpoints (Base URL: `https://caca18968819
 3. Sync Gradle and build the project.
 4. Run on your device or emulator.
 5. **If the API token has exceeded its limit:**  
-   Request a new token from [Beeceptor CRUD API](https://beeceptor.com/crud-api/) and replace the baseUrl named `tripsUrl` in the `Network.kt` file.
+   Request a new token from [Beeceptor CRUD API](https://beeceptor.com/crud-api/) and replace the baseUrl named `BASE_URL` in the `Utils.kt` file.
 
 ---
 
