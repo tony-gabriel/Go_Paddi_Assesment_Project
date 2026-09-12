@@ -24,6 +24,12 @@ A modern Android travel management application built with Jetpack Compose. Go Pa
 
 ---
 
+### CI/CD
+GitHub Actions automatically validates the Android project on pushes
+and pull requests, including build verification and automated tests.
+
+---
+
 ## API Endpoints
 
 The app integrates with these RESTful endpoints (Base URL: `https://caca18968819c215e3d8.free.beeceptor.com`):
