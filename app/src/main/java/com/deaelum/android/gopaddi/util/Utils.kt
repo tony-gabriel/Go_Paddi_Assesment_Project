@@ -11,7 +11,7 @@ import java.util.Date
 import java.util.Locale
 
 object Constants {
-    const val BASE_URL = "https://ca6ccc589609e7d239b4.free.beeceptor.com/api/"
+    const val BASE_URL = "https://ca8df7d754e773aa4d2f.free.beeceptor.com/api/"
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getFormatedDate(date: LocalDate?): String {
